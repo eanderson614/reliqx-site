@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ReliqX — Know what your collection is really worth</title>
+<meta name="description" content="ReliqX values, authenticates, and tracks your sports cards and memorabilia from real sold comps. An authentication-and-provenance vault built for memorabilia, not just commons." />
+<meta property="og:title" content="ReliqX — Know what your collection is really worth" />
+<meta property="og:description" content="Real sold-comp valuation, an authentication & provenance vault, and portfolio intelligence for collectors." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="img/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0B0E14; --s1:#141925; --s2:#1C2230; --line:rgba(255,255,255,.08);
+    --ink:rgba(255,255,255,.96); --ink2:rgba(255,255,255,.62); --muted:rgba(255,255,255,.40);
+    --accent:#10B981; --accent2:#0E9E6E; --gold:#E8C27A; --good:#34D399;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink); font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+
+  /* glow backdrop */
+  .glow{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .glow::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+    width:900px;height:700px;background:radial-gradient(closest-side,rgba(16,185,129,.18),transparent);filter:blur(20px)}
+  .glow::after{content:"";position:absolute;bottom:-200px;left:-100px;width:600px;height:600px;
+    background:radial-gradient(closest-side,rgba(14,124,90,.14),transparent)}
+  main{position:relative;z-index:1}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(160%) blur(14px);
+    background:rgba(11,14,20,.6);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.01em}
+  .brand img{width:30px;height:30px;border-radius:8px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;
+    padding:11px 18px;border-radius:12px;cursor:pointer;border:none;transition:.15s}
+  .btn-primary{background:linear-gradient(180deg,var(--accent),var(--accent2));color:#05130D;
+    box-shadow:0 8px 24px rgba(16,185,129,.28)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(16,185,129,.36)}
+  .btn-ghost{background:transparent;color:var(--ink2)}
+  .btn-ghost:hover{color:var(--ink)}
+
+  /* hero */
+  .hero{padding:84px 0 40px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(38px,5.2vw,62px);line-height:1.04;font-weight:800;letter-spacing:-.025em}
+  .hero h1 .em{color:var(--accent);font-style:italic;font-weight:800}
+  .hero p.sub{margin-top:20px;font-size:19px;color:var(--ink2);max-width:540px}
+  .form{margin-top:30px;display:flex;gap:10px;max-width:480px;flex-wrap:wrap}
+  .form input{flex:1;min-width:220px;background:var(--s1);border:1px solid var(--line);color:var(--ink);
+    padding:14px 16px;border-radius:12px;font-size:15px;font-family:inherit}
+  .form input:focus{outline:none;border-color:rgba(16,185,129,.5)}
+  .form .note{width:100%;font-size:13px;color:var(--muted);margin-top:6px}
+  .form.ok input,.form.ok button{display:none}
+  .form .success{display:none;width:100%;align-items:center;gap:10px;color:var(--good);font-weight:600;font-size:16px}
+  .form.ok .success{display:flex}
+
+  .phone{position:relative;justify-self:center;width:300px;aspect-ratio:1206/2622;
+    border-radius:42px;background:#000;border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 8px rgba(20,25,37,.6);overflow:hidden}
+  .phone img{width:100%;height:100%;object-fit:cover;display:block}
+  .phone.tilt{transform:rotate(3deg)}
+
+  /* trust line */
+  .trust{text-align:center;padding:18px 0 8px;color:var(--ink2);font-size:15px}
+  .trust b{color:var(--gold)}
+
+  /* sections */
+  section.block{padding:72px 0}
+  .center{text-align:center;max-width:680px;margin:0 auto}
+  .center h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.02em;margin-top:12px}
+  .center p.lead{margin-top:14px;font-size:18px;color:var(--ink2)}
+
+  .features{margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .card{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--line);
+    border-radius:18px;padding:26px}
+  .card .ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:22px;margin-bottom:14px}
+  .card h3{font-size:19px;font-weight:700;margin-bottom:8px}
+  .card p{color:var(--ink2);font-size:15px}
+  .ic.g{background:rgba(16,185,129,.14);color:var(--accent)}
+  .ic.gold{background:rgba(232,194,122,.14);color:var(--gold)}
+  .ic.blue{background:rgba(96,176,187,.16);color:#60B0BB}
+  .ic.good{background:rgba(52,211,153,.14);color:var(--good)}
+
+  /* showcase */
+  .showcase{display:flex;gap:26px;justify-content:center;margin-top:52px;flex-wrap:wrap}
+  .showcase .phone{width:248px}
+
+  /* steps */
+  .steps{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .step{background:var(--s1);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .step .n{width:34px;height:34px;border-radius:10px;background:rgba(16,185,129,.14);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:14px}
+  .step h3{font-size:18px;margin-bottom:6px}
+  .step p{color:var(--ink2);font-size:15px}
+
+  /* cta */
+  .cta{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--line);
+    border-radius:26px;padding:56px 32px;text-align:center;margin:24px 0 0}
+  .cta h2{font-size:clamp(26px,3.4vw,38px);font-weight:800;letter-spacing:-.02em}
+  .cta p{color:var(--ink2);margin-top:12px;font-size:17px}
+  .cta .form{margin:26px auto 0;justify-content:center}
+
+  footer{border-top:1px solid var(--line);margin-top:72px;padding:34px 0;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;padding:56px 0 20px;text-align:center}
+    .hero p.sub{margin-left:auto;margin-right:auto}
+    .form{margin-left:auto;margin-right:auto}
+    .phone{order:-1;width:260px}
+    .features,.steps{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<nav><div class="wrap">
+  <a class="brand" href="#"><img src="img/icon.png" alt="ReliqX" />ReliqX</a>
+  <a href="#join" class="btn btn-primary">Join the waitlist</a>
+</div></nav>
+
+<main>
+  <!-- HERO -->
+  <header class="wrap hero">
+    <div>
+      <span class="eyebrow">Sports cards &amp; memorabilia</span>
+      <h1>Know what your collection is <span class="em">really</span> worth.</h1>
+      <p class="sub">ReliqX values your cards and signed pieces from real sold comps, authenticates them, and tracks the whole collection like a portfolio. Built for memorabilia — not just commons.</p>
+      <form class="form" id="f1" onsubmit="return joinWaitlist(event,'f1')">
+        <input type="email" name="email" placeholder="you@email.com" required aria-label="Email" />
+        <button class="btn btn-primary" type="submit">Get early access</button>
+        <span class="note">Be first on iOS. No spam, just the launch.</span>
+        <span class="success">✓ You're on the list — we'll be in touch.</span>
+      </form>
+    </div>
+    <div class="phone tilt"><img src="img/hero-portfolio.png" alt="ReliqX portfolio dashboard" /></div>
+  </header>
+
+  <p class="trust wrap">Real sold comps · <b>PSA/DNA, JSA, BAS &amp; UDA</b> authentication · witnessed vs non-witnessed</p>
+
+  <!-- POSITIONING -->
+  <section class="block">
+    <div class="center">
+      <span class="eyebrow">The difference</span>
+      <h2>A vault the card apps can't touch.</h2>
+      <p class="lead">Card-only apps assume a slab. ReliqX models what actually drives memorabilia value — the authenticator, the cert, whether the signing was witnessed, the provenance. It's research, portfolio, and an authentication vault in one.</p>
+    </div>
+    <div class="features">
+      <div class="card"><div class="ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.1"/></svg></div><h3>Real valuation</h3><p>Every item priced from identical items that actually sold — eBay, Goldin, PWCC, Heritage — with framing and authentication factored in. Not a guess.</p></div>
+      <div class="card"><div class="ic gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Authentication &amp; provenance</h3><p>PSA/DNA, JSA, BAS, UDA. Witnessed vs non-witnessed. Cert &amp; hologram numbers, a provenance timeline, and an evidence-grade record for every piece.</p></div>
+      <div class="card"><div class="ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M4 19h16"/><path d="m4 15 4-4 3 3 5-6"/><path d="M16 8h3v3"/></svg></div><h3>Portfolio intelligence</h3><p>Value over time, movers, allocation by sport, and deep player markets with price history and forward-looking "what-if" scenarios no rival has.</p></div>
+      <div class="card"><div class="ic good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6l-8-3Z"/></svg></div><h3>Protect &amp; act</h3><p>Capital-gains tax estimates, insurance quotes sized to your collection, CSV import/export, and a one-tap path to list on eBay.</p></div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <section class="block">
+    <div class="center"><span class="eyebrow">Inside the app</span><h2>Depth on every screen.</h2></div>
+    <div class="showcase">
+      <div class="phone"><img src="img/player-market-top.png" alt="Player market" /></div>
+      <div class="phone"><img src="img/collection-grouped-composition.png" alt="Collection composition" /></div>
+      <div class="phone"><img src="img/tax-estimate.png" alt="Tax estimate" /></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="block">
+    <div class="center"><span class="eyebrow">How it works</span><h2>From shoebox to portfolio in minutes.</h2></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Capture</h3><p>Snap a photo to identify and value an item, key one in by hand, or import your whole collection from a spreadsheet.</p></div>
+      <div class="step"><div class="n">2</div><h3>Value &amp; authenticate</h3><p>Get a real sold-comp value and record the authenticator, cert, and signing details that drive what it's worth.</p></div>
+      <div class="step"><div class="n">3</div><h3>Track &amp; sell</h3><p>Watch your portfolio, set price alerts, estimate tax and insurance — and list to eBay when you're ready to sell.</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="wrap" id="join">
+    <div class="cta">
+      <span class="eyebrow">Coming to iOS</span>
+      <h2>Get early access to ReliqX.</h2>
+      <p>Join the waitlist and be first in when we launch.</p>
+      <form class="form" id="f2" onsubmit="return joinWaitlist(event,'f2')">
+        <input type="email" name="email" placeholder="you@email.com" required aria-label="Email" />
+        <button class="btn btn-primary" type="submit">Join the waitlist</button>
+        <span class="success">✓ You're on the list — we'll be in touch.</span>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 ReliqX</span>
+  <span>Real sold comps · authenticated provenance</span>
+</div></footer>
+
+<script>
+  // Where waitlist emails go. Easiest: create a free form at formspree.io and paste
+  // its endpoint here (e.g. https://formspree.io/f/abcdwxyz). Or point at the ReliqX
+  // backend's /api/waitlist once reliqx.app is deployed.
+  const WAITLIST_ENDPOINT = "https://formspree.io/f/yourFormId";
+
+  async function joinWaitlist(e, id){
+    e.preventDefault();
+    const form = document.getElementById(id);
+    const email = form.querySelector('input[name=email]').value.trim();
+    if(!email) return false;
+    try{
+      await fetch(WAITLIST_ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({email})
+      });
+    }catch(_){ /* show success regardless; we captured intent */ }
+    form.classList.add('ok');
+    return false;
+  }
+</script>
+</body>
+</html>
